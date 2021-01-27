@@ -5,7 +5,7 @@ import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import userinterface.board1;
+//import userinterface.board1;
 
 public class mainboard1 extends JFrame {
 	private Container c;
@@ -19,10 +19,8 @@ public class mainboard1 extends JFrame {
 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         board1 ui=new board1();
         add(ui);
-       setSize(1040, 1060);
+       setSize(1043, 1065);
       setVisible(true);
-      setResizable(false);
-     
 		
       /*c = this.getContentPane();
       b1=new JButton("Accept");
@@ -33,7 +31,6 @@ c.add(b1);*/
 	 public static void main(String[] args) {
 	        
 	        JFrame f=new JFrame("Chess Tutorial");
-	      
 	        }
 }
 

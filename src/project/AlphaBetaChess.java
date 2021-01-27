@@ -3,6 +3,8 @@ package project;
 import java.util.*;
 import javax.swing.*;
 public class AlphaBetaChess {
+	
+	
     static String chessBoard[][]={
         {"r","k","b","q","a","b","k","r"},
         {"p","p","p","p","p","p","p","p"},
@@ -12,6 +14,7 @@ public class AlphaBetaChess {
         {" "," "," "," "," "," "," "," "},
         {"P","P","P","P","P","P","P","P"},
         {"R","K","B","Q","A","B","K","R"}};
+    
     static int kingPositionC, kingPositionL;
     static int humanAsWhite=-1;//1=human as white, 0=human as black
     static int globalDepth;
@@ -21,6 +24,7 @@ public class AlphaBetaChess {
     {
     	globalDepth=depth;
     }
+    
     
     public static void main(String[] args) {
     	
@@ -32,31 +36,22 @@ public class AlphaBetaChess {
     	
     	while (!"A".equals(chessBoard[kingPositionC/8][kingPositionC%8])) {kingPositionC++;}//get King's location
         while (!"a".equals(chessBoard[kingPositionL/8][kingPositionL%8])) {kingPositionL++;}//get king's location
-        /*
-         * PIECE=WHITE/black
-         * pawn=P/p
-         * kinght (horse)=K/k
-         * bishop=B/b
-         * rook (castle)=R/r
-         * Queen=Q/q
-         * King=A/a
-         * 
-         * My strategy is to create an alpha-beta tree diagram wich returns
-         * the best outcome
-         * 
-         * (1234b represents row1,column2 moves to row3, column4 which captured
-         * b (a space represents no capture))
-         */
-        JFrame f=new JFrame("Chess");
+        
+        JFrame f=new JFrame("Wizerd Chess");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         UserInterface ui=new UserInterface();
         f.add(ui);
         f.setSize(1043, 1060);
         f.setVisible(true);
+        
+        
         System.out.println(sortMoves(posibleMoves()));
+        
+        
         Object[] option={"Computer","Human"};
-        humanAsWhite=JOptionPane.showOptionDialog(null, "Who will move first?", "ABC Options", JOptionPane.YES_NO_OPTION,
+        humanAsWhite=JOptionPane.showOptionDialog(null, "Who will move first?", "Move Options", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, option, option[1]);
+        
         if (humanAsWhite==0) {
             long startTime=System.currentTimeMillis();
             makeMove(alphaBeta(globalDepth, 1000000, -1000000, "", 0));
@@ -65,15 +60,52 @@ public class AlphaBetaChess {
             flipBoard();
             f.repaint();
         }
-        makeMove("7655 ");
-        undoMove("7655 ");
+        
+//        makeMove("7655 ");
+//        undoMove("7655 ");
+        
+        //print the board
         for (int i=0;i<8;i++) {
             System.out.println(Arrays.toString(chessBoard[i]));
         }
-    	
+        
     }
     
     
+    
+    //AI
+    public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
+        //return in the form of 1234b##########
+        String list=posibleMoves();
+        if (depth==0 || list.length()==0) {return move+(Rating.rating(list.length(), depth)*(player*2-1));}
+        list=sortMoves(list);
+        
+        player=1-player;//either 1 or 0
+        
+        for (int i=0;i<list.length();i+=5) {
+            makeMove(list.substring(i,i+5));
+            flipBoard();
+            
+            String returnString=alphaBeta(depth-1, beta, alpha, list.substring(i,i+5), player);
+            int value=Integer.valueOf(returnString.substring(5));
+            flipBoard();
+            undoMove(list.substring(i,i+5));
+            
+            if (player==0) {
+                if (value<=beta) {beta=value; if (depth==globalDepth) {move=returnString.substring(0,5);}}
+            } else {
+                if (value>alpha) {alpha=value; if (depth==globalDepth) {move=returnString.substring(0,5);}}
+            }
+            if (alpha>=beta) {
+                if (player==0) {return move+beta;} else {return move+alpha;}
+            }
+        }
+        if (player==0) {return move+beta;} else {return move+alpha;}
+    }
+    
+    
+    
+    //Flip the board
     public static void flipBoard() {
         String temp;
         for (int i=0;i<32;i++) {
@@ -94,6 +126,10 @@ public class AlphaBetaChess {
         kingPositionC=63-kingPositionL;
         kingPositionL=63-kingTemp;
     }
+    
+    
+    
+    //make move
     public static void makeMove(String move) {
         if (move.charAt(4)!='P') {
             chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))]=chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))];
@@ -107,6 +143,10 @@ public class AlphaBetaChess {
             chessBoard[0][Character.getNumericValue(move.charAt(1))]=String.valueOf(move.charAt(3));
         }
     }
+    
+    
+    
+    //undo move
     public static void undoMove(String move) {
         if (move.charAt(4)!='P') {
             chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))]=chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))];
@@ -120,6 +160,11 @@ public class AlphaBetaChess {
             chessBoard[0][Character.getNumericValue(move.charAt(1))]=String.valueOf(move.charAt(2));
         }
     }
+    
+    
+    
+    
+    //possible moves
     public static String posibleMoves() {
         String list="";
         for (int i=0; i<64; i++) {
@@ -140,11 +185,17 @@ public class AlphaBetaChess {
         }
         return list;//x1,y1,x2,y2,captured piece
     }
+    
+    
+    
+    //pawn
     public static String posibleP(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         for (int j=-1; j<=1; j+=2) {
-            try {//capture
+        	
+        	//capture
+            try {
                 if (Character.isLowerCase(chessBoard[r-1][c+j].charAt(0)) && i>=16) {
                     oldPiece=chessBoard[r-1][c+j];
                     chessBoard[r][c]=" ";
@@ -156,7 +207,9 @@ public class AlphaBetaChess {
                     chessBoard[r-1][c+j]=oldPiece;
                 }
             } catch (Exception e) {}
-            try {//promotion && capture
+            
+          //promotion && capture
+            try {
                 if (Character.isLowerCase(chessBoard[r-1][c+j].charAt(0)) && i<16) {
                     String[] temp={"Q","R","B","K"};
                     for (int k=0; k<4; k++) {
@@ -173,7 +226,9 @@ public class AlphaBetaChess {
                 }
             } catch (Exception e) {}
         }
-        try {//move one up
+        
+      //move one up
+        try {
             if (" ".equals(chessBoard[r-1][c]) && i>=16) {
                 oldPiece=chessBoard[r-1][c];
                 chessBoard[r][c]=" ";
@@ -185,7 +240,10 @@ public class AlphaBetaChess {
                 chessBoard[r-1][c]=oldPiece;
             }
         } catch (Exception e) {}
-        try {//promotion && no capture
+        
+        
+      //promotion && no capture
+        try {
             if (" ".equals(chessBoard[r-1][c]) && i<16) {
                 String[] temp={"Q","R","B","K"};
                 for (int k=0; k<4; k++) {
@@ -201,7 +259,10 @@ public class AlphaBetaChess {
                 }
             }
         } catch (Exception e) {}
-        try {//move two up
+        
+        
+      //move two up
+        try {
             if (" ".equals(chessBoard[r-1][c]) && " ".equals(chessBoard[r-2][c]) && i>=48) {
                 oldPiece=chessBoard[r-2][c];
                 chessBoard[r][c]=" ";
@@ -215,6 +276,10 @@ public class AlphaBetaChess {
         } catch (Exception e) {}
         return list;
     }
+    
+    
+    
+    //rock
     public static String posibleR(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
@@ -273,6 +338,10 @@ public class AlphaBetaChess {
         }
         return list;
     }
+    
+    
+    
+    //knight
     public static String posibleK(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
@@ -304,6 +373,10 @@ public class AlphaBetaChess {
         }
         return list;
     }
+    
+    
+    
+    //bishop
     public static String posibleB(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
@@ -339,6 +412,10 @@ public class AlphaBetaChess {
         }
         return list;
     }
+    
+    
+    
+    //queen
     public static String posibleQ(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
@@ -376,6 +453,10 @@ public class AlphaBetaChess {
         }
         return list;
     }
+    
+    
+    
+    //king
     public static String posibleA(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
@@ -400,9 +481,13 @@ public class AlphaBetaChess {
         }
         //need to add casting later
         return list;
-    }
+    } 
     
+    
+    
+    //king safe
     public static boolean kingSafe() {
+    	
         //bishop/queen
         int temp=1;
         for (int i=-1; i<=1; i+=2) {
@@ -417,6 +502,7 @@ public class AlphaBetaChess {
                 temp=1;
             }
         }
+        
         //rook/queen
         for (int i=-1; i<=1; i+=2) {
             try {
@@ -436,6 +522,7 @@ public class AlphaBetaChess {
             } catch (Exception e) {}
             temp=1;
         }
+        
         //knight
         for (int i=-1; i<=1; i+=2) {
             for (int j=-1; j<=1; j+=2) {
@@ -451,6 +538,7 @@ public class AlphaBetaChess {
                 } catch (Exception e) {}
             }
         }
+        
         //pawn
         if (kingPositionC>=16) {
             try {
@@ -463,6 +551,7 @@ public class AlphaBetaChess {
                     return false;
                 }
             } catch (Exception e) {}
+            
             //king
             for (int i=-1; i<=1; i++) {
                 for (int j=-1; j<=1; j++) {
@@ -478,4 +567,29 @@ public class AlphaBetaChess {
         }
         return true;
     }
+    
+    
+    
+  //sort moves
+    public static String sortMoves(String list) {
+        int[] score=new int [list.length()/5];
+        for (int i=0;i<list.length();i+=5) {
+            makeMove(list.substring(i, i+5));
+            score[i/5]=-Rating.rating(-1, 0);
+            undoMove(list.substring(i, i+5));
+        }
+        String newListA="", newListB=list;
+        for (int i=0;i<Math.min(6, list.length()/5);i++) {//first few moves only
+            int max=-1000000, maxLocation=0;
+            for (int j=0;j<list.length()/5;j++) {
+                if (score[j]>max) {max=score[j]; maxLocation=j;}
+            }
+            score[maxLocation]=-1000000;
+            newListA+=list.substring(maxLocation*5,maxLocation*5+5);
+            newListB=newListB.replace(list.substring(maxLocation*5,maxLocation*5+5), "");
+        }
+        return newListA+newListB;
+    }
+    
+    
 }

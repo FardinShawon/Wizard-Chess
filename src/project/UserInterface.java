@@ -1,23 +1,116 @@
-package chess_pakage;
+package project;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileReader;
+
 import javax.swing.*;
+
 public class UserInterface extends JPanel implements MouseListener, MouseMotionListener{
+	
+	FileReader file;
+	int p;
+	int i;
+	Character c=new Character('o');	
+    static int mouseX, mouseY, newMouseX, newMouseY,tempx,tempy, x, y;
+    static int squareSize=128;
     
-    static int square=128;
+    
     @Override
     public void paintComponent(Graphics g) {
+    	
+    	try {
+    		file= new FileReader("D:\\choice1.txt");
+    		 i=file.read();
+    		 c=(char)i;
+    	    //System.out.println("char :"+c);
+    	}
+    	catch(Exception e)
+    	{
+    	
+    	}
+    	
         super.paintComponent(g);
         this.setBackground(Color.yellow);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        for (int i=0;i<64;i+=2) {
-            g.setColor(new Color(255,200,100));
-            g.fillRect((i%8+(i/8)%2)*square, (i/8)*square, square, square);
-            g.setColor(new Color(150,50,30));
-            g.fillRect(((i+1)%8-((i+1)/8)%2)*square, ((i+1)/8)*square, square, square);
+       
+
+        //board 1
+        if(c.equals('1'))
+        {
+        	System.out.println("1");
+        
+        	for (int i=0;i<64;i+=2) {
+                g.setColor(new Color(229, 216, 243));
+                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
+                g.setColor(new Color(153, 102, 204));
+                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+            }
         }
+        
+     
+        //board 2
+        if(c.equals('2'))
+        {
+        	System.out.println("2");
+        
+        	for (int i=0;i<64;i+=2) {
+                g.setColor(new Color(230, 230, 230));
+                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
+                g.setColor(new Color(123, 104, 238));
+                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+            }
+        }
+        
+        
+         
+        //board 3
+        if(c.equals('3'))
+        {
+        	//System.out.println("3");
+        
+        	 for (int i=0;i<64;i+=2) {
+                 g.setColor(new Color(233, 246, 251));
+                 g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
+                 g.setColor(new Color(123, 164, 40));
+                 g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+             }
+        }
+        
+        
+        
+        //board 4
+        if(c.equals('4'))
+        {
+        	System.out.println("4");
+        
+        	for (int i=0;i<64;i+=2) {
+                g.setColor(new Color(255, 247, 204));
+                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
+                g.setColor(new Color(51, 153, 95));
+                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+            }
+        }
+        
+        
+        
+        //board 5
+        if(c.equals('5'))
+        {
+        	System.out.println("5");
+        
+        	for (int i=0;i<64;i+=2) {
+                g.setColor(new Color(233, 246, 251));
+                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
+                g.setColor(new Color(123, 164, 40));
+                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+            }
+        }
+        
+        
+        
+        //chess image
         Image chessPiecesImage;
         chessPiecesImage=new ImageIcon("ChessPieces.png").getImage();
         for (int i=0;i<64;i++) {
@@ -49,24 +142,70 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
                     break;
             }
             if (j!=-1 && k!=-1) {
-                g.drawImage(chessPiecesImage, (i%8)*square, (i/8)*square, (i%8+1)*square, (i/8+1)*square, j*64, k*64, (j+1)*64, (k+1)*64, this);
+                g.drawImage(chessPiecesImage, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, j*64, k*64, (j+1)*64, (k+1)*64, this);
             }
-        }
+        }  
     }
+    
+    
+    
     
     
     @Override
     public void mouseMoved(MouseEvent e) {}
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
+            //if inside the board
+            mouseX=e.getX();
+            mouseY=e.getY();
+            repaint();
+        }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+        if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
+            //if inside the board
+            newMouseX=e.getX();
+            newMouseY=e.getY();
+            if (e.getButton()==MouseEvent.BUTTON1) {
+                String dragMove;
+                if (newMouseY/squareSize==0 && mouseY/squareSize==1 && "P".equals(AlphaBetaChess.chessBoard[mouseY/squareSize][mouseX/squareSize])) {
+                    //pawn promotion
+                    dragMove=""+mouseX/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize]+"QP";
+                } else {
+                    //regular move
+                    dragMove=""+mouseY/squareSize+mouseX/squareSize+newMouseY/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize];
+                }
+                String userPosibilities=AlphaBetaChess.posibleMoves();
+                if (userPosibilities.replaceAll(dragMove, "").length()<userPosibilities.length()) {
+                    //if valid move
+                    AlphaBetaChess.makeMove(dragMove);
+                    AlphaBetaChess.flipBoard();
+//                    repaint();
+                    AlphaBetaChess.makeMove(AlphaBetaChess.alphaBeta(AlphaBetaChess.globalDepth, 1000000, -1000000, "", 0));
+                    AlphaBetaChess.flipBoard();
+                    repaint();
+                }
+            }
+        }
     }
     @Override
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+    	tempx = e.getX();
+    	tempy = e.getY();
+    	x=tempx/squareSize;
+    	y=tempy/squareSize;
+    	tempx=x*squareSize;
+    	tempy=y*squareSize;
+    	
+    	HighLight h = new HighLight(tempx, tempy, squareSize);
+    	h.paintComponent(getGraphics());
+    	
+    	PossibleMovesHighlight pmh = new PossibleMovesHighlight(x, y, squareSize, getGraphics());
+    	pmh.Draw();
+    	
+    }
     @Override
     public void mouseDragged(MouseEvent e) {}
     @Override
@@ -74,4 +213,3 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
     @Override
     public void mouseExited(MouseEvent e) {}
 }
-

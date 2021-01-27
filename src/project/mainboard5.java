@@ -14,9 +14,6 @@ public class mainboard5 extends JFrame{
         //1042
         setSize(1042, 1065);
         setVisible(true);
-        setResizable(false);
-        
-        
 	}
 		 
 		    public static void main(String[] args) {

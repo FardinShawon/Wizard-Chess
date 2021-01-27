@@ -275,7 +275,7 @@ public class boardchoice extends JFrame {
 		b11=new JButton("Back");
 		b11.setBounds(300,800,250,60);
 		b11.setForeground(Color.black);
-		b11.setBackground(Color.LIGHT_GRAY);
+		b11.setBackground(Color.lightGray);
 		b11.setFont(f);
 		
 		c.add(b11);
@@ -285,7 +285,7 @@ public class boardchoice extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				chessfont s1=new chessfont();
-			s1.setBounds(50,20,1000,1000);
+			s1.setBounds(50,20,1000,670);
 			s1.setVisible(true);
 			
 				

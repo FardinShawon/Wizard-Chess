@@ -33,7 +33,7 @@ public class chessfont extends JFrame {
 		
 		
 		
-		button11=new JButton("play Game");
+		button11=new JButton("Play Game");
 		button11.setBounds(400,320,150,50);
 		button11.setBackground(Color.BLACK);
 		button11.setForeground(Color.lightGray);
@@ -105,7 +105,7 @@ public class chessfont extends JFrame {
 chessfont f=new chessfont();
 f.setVisible(true);
 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-f.setBounds(30,50,1000,900);
+f.setBounds(30,50,1000,670);
 //f.setExtendedState(MAXIMIZED_BOTH);
 f.setTitle("welcome our chess game");
 

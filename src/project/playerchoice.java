@@ -44,7 +44,7 @@ public class playerchoice extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 				chessfont s1=new chessfont();
-			s1.setBounds(50,20,1000,1000);
+			s1.setBounds(50,20,1000,670);
 			s1.setVisible(true);
 				
 			}

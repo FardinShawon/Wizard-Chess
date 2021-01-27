@@ -62,9 +62,7 @@ public class settings extends JFrame {
 		b2.setBackground(Color.LIGHT_GRAY);
 		b2.setFont(f);
 		imglabel.add(b2);
-		
-		*/
-		//c.add(b2);
+		//c.add(b2);*/
 		c.add(imglabel);
 		
 		

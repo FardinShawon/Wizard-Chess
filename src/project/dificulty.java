@@ -40,7 +40,7 @@ public class dificulty extends JFrame {
 					// TODO Auto-generated method stub
 					//JOptionPane.showMessageDialog(null,"Start Game..");
 					
-					AlphaBetaChess z1 = new AlphaBetaChess(4);
+					AlphaBetaChess z1 = new AlphaBetaChess(2);
 					z1.setup();
 					dispose();
 				}
@@ -64,7 +64,7 @@ public class dificulty extends JFrame {
 					// TODO Auto-generated method stub
 					//JOptionPane.showMessageDialog(null,"Start Game..");
 					
-					AlphaBetaChess z2 = new AlphaBetaChess(8);
+					AlphaBetaChess z2 = new AlphaBetaChess(4);
 					z2.setup();
 					dispose();
 				}
@@ -86,7 +86,7 @@ public class dificulty extends JFrame {
 					// TODO Auto-generated method stub
 					//JOptionPane.showMessageDialog(null,"Star Game....");
 					
-					AlphaBetaChess z3 = new AlphaBetaChess(4);
+					AlphaBetaChess z3 = new AlphaBetaChess(6);
 					z3.setup();
 					dispose();
 				}
