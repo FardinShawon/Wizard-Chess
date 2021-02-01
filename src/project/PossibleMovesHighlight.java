@@ -1,14 +1,14 @@
 package project;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 public class PossibleMovesHighlight {
 	
 	
-	 static int x;
-	 static int y;
+	static int x;
+	static int y;
 	static int square;
-	int pos;
+	int position;
 	static int hflag;
 	static Graphics g;
 	
@@ -18,11 +18,10 @@ public class PossibleMovesHighlight {
 		PossibleMovesHighlight.y=y;	
 		PossibleMovesHighlight.square=square;
 		PossibleMovesHighlight.g=g;
-		pos=x*8+y;
+		position=x*8+y;
 		System.out.println(x+""+y);
 		//Draw();
 	}
-	
 	
 	
 	public void Draw()
@@ -30,46 +29,45 @@ public class PossibleMovesHighlight {
 		if("P".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("P");
-			posibleP(pos);
+			posibleP(position);
 		}
 		else if("R".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("R");
-			posibleR(pos);
+			posibleR(position);
 		}
 		else if("B".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("B");
-			posibleB(pos);
+			posibleB(position);
 		}
 		else if("K".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("K");
-			posibleK(pos);
+			posibleK(position);
 		}
 		else if("Q".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("Q");
-			posibleQ(pos);
+			posibleQ(position);
 		}
 		else if("A".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
 			System.out.println("A");
-			posibleA(pos);
+			posibleA(position);
 		}
-		
 	}
 	
 	
 	//pawn
-    public static String posibleP(int i) {
+    public static String posibleP(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         for (int j=-1; j<=1; j+=2) {
         	
         	//capture
             try {
-                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r-1][c+j].charAt(0)) && i>=16) {
+                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r-1][c+j].charAt(0)) && pos>=16) {
                 	hflag =0;
                 	
                     oldPiece=AlphaBetaChess.chessBoard[r-1][c+j];
@@ -95,7 +93,7 @@ public class PossibleMovesHighlight {
             
           //promotion && capture
             try {
-                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r-1][c+j].charAt(0)) && i<16) {
+                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r-1][c+j].charAt(0)) && pos<16) {
                 	hflag=0;
                 	
                     String[] temp={"Q","R","B","K"};
@@ -126,7 +124,7 @@ public class PossibleMovesHighlight {
         
       //move one up
         try {
-            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && i>=16) {
+            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && pos>=16) {
             	hflag=0;
             	
                 oldPiece=AlphaBetaChess.chessBoard[r-1][c];
@@ -152,7 +150,7 @@ public class PossibleMovesHighlight {
         
       //promotion && no capture
         try {
-            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && i<16) {
+            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && pos<16) {
             	hflag=0;
             	
                 String[] temp={"Q","R","B","K"};
@@ -184,7 +182,7 @@ public class PossibleMovesHighlight {
         
       //move two up
         try {
-            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && " ".equals(AlphaBetaChess.chessBoard[r-2][c]) && i>=48) {
+            if (" ".equals(AlphaBetaChess.chessBoard[r-1][c]) && " ".equals(AlphaBetaChess.chessBoard[r-2][c]) && pos>=48) {
             	hflag=0;
             	
             	oldPiece=AlphaBetaChess.chessBoard[r-2][c];
@@ -213,9 +211,9 @@ public class PossibleMovesHighlight {
     
     
     //rock
-    public static String posibleR(int i) {
+    public static String posibleR(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         int temp=1;
         for (int j=-1; j<=1; j+=2) {
             try {
@@ -323,9 +321,9 @@ public class PossibleMovesHighlight {
     
     
     //knight
-    public static String posibleK(int i) {
+    public static String posibleK(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         for (int j=-1; j<=1; j+=2) {
             for (int k=-1; k<=1; k+=2) {
                 try {
@@ -383,9 +381,9 @@ public class PossibleMovesHighlight {
     
     
     //bishop
-    public static String posibleB(int i) {
+    public static String posibleB(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         int temp=1;
         for (int j=-1; j<=1; j+=2) {
             for (int k=-1; k<=1; k+=2) {
@@ -450,9 +448,9 @@ public class PossibleMovesHighlight {
     
     
     //queen
-    public static String posibleQ(int i) {
+    public static String posibleQ(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         int temp=1;
         for (int j=-1; j<=1; j++) {
             for (int k=-1; k<=1; k++) {
@@ -518,9 +516,9 @@ public class PossibleMovesHighlight {
     
     
     //king
-    public static String posibleA(int i) {
+    public static String posibleA(int pos) {
         String list="", oldPiece;
-        int r=i/8, c=i%8;
+        int r=pos/8, c=pos%8;
         for (int j=0;j<9;j++) {
             if (j!=4) {
                 try {
@@ -531,7 +529,7 @@ public class PossibleMovesHighlight {
                         AlphaBetaChess.chessBoard[r][c]=" ";
                         AlphaBetaChess.chessBoard[r-1+j/3][c-1+j%3]="A";
                         int kingTemp=AlphaBetaChess.kingPositionC;
-                        AlphaBetaChess.kingPositionC=i+(j/3)*8+j%3-9;
+                        AlphaBetaChess.kingPositionC=pos+(j/3)*8+j%3-9;
                         
                         if (kingSafe()) {
                             list=list+r+c+(r-1+j/3)+(c-1+j%3)+oldPiece;

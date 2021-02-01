@@ -1,43 +1,49 @@
 package project;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.*;
+
 import java.io.FileReader;
 
 import javax.swing.*;
 
 public class UserInterface extends JPanel implements MouseListener, MouseMotionListener{
 	
+	int boardChoiceIndicator;
 	FileReader file;
-	int p;
-	int i;
-	Character c=new Character('o');	
+	Character indicator=new Character('0');	
     static int mouseX, mouseY, newMouseX, newMouseY,tempx,tempy, x, y;
     static int squareSize=128;
+//    static Graphics g;
+    
+//    g.addMouseListener(g);
+//    this.addMouseMotionListener(this);
     
     
     @Override
     public void paintComponent(Graphics g) {
     	
     	try {
-    		file= new FileReader("D:\\choice1.txt");
-    		 i=file.read();
-    		 c=(char)i;
+    		//file= new FileReader("D:\\choice1.txt");
+    		file= new FileReader("/media/shuvra/New Volume/IIT/3rd semester/Project/Chess/Codechoice1.txt");
+    		boardChoiceIndicator=file.read();
+    		 indicator=(char)boardChoiceIndicator;
     	    //System.out.println("char :"+c);
     	}
-    	catch(Exception e)
-    	{
+    	catch(Exception e){
     	
     	}
     	
         super.paintComponent(g);
         this.setBackground(Color.yellow);
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
        
 
         //board 1
-        if(c.equals('1'))
+        if(indicator.equals('1'))
         {
         	System.out.println("1");
         
@@ -51,7 +57,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
         
      
         //board 2
-        if(c.equals('2'))
+        if(indicator.equals('2'))
         {
         	System.out.println("2");
         
@@ -64,9 +70,8 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
         }
         
         
-         
         //board 3
-        if(c.equals('3'))
+        if(indicator.equals('3'))
         {
         	//System.out.println("3");
         
@@ -81,7 +86,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
         
         
         //board 4
-        if(c.equals('4'))
+        if(indicator.equals('4'))
         {
         	System.out.println("4");
         
@@ -96,7 +101,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
         
         
         //board 5
-        if(c.equals('5'))
+        if(indicator.equals('5'))
         {
         	System.out.println("5");
         
@@ -148,11 +153,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
     }
     
     
-    
-    
-    
-    @Override
-    public void mouseMoved(MouseEvent e) {}
+    //Mouse functionality
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
@@ -162,6 +163,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
             repaint();
         }
     }
+    
     @Override
     public void mouseReleased(MouseEvent e) {
         if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
@@ -190,6 +192,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
             }
         }
     }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
     	tempx = e.getX();
@@ -204,12 +207,14 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
     	
     	PossibleMovesHighlight pmh = new PossibleMovesHighlight(x, y, squareSize, getGraphics());
     	pmh.Draw();
-    	
     }
+    
     @Override
     public void mouseDragged(MouseEvent e) {}
     @Override
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+    @Override
+    public void mouseMoved(MouseEvent e) {}
 }

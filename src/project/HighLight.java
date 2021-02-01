@@ -8,13 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 
 public class HighLight {
-	
 	private static final String BorderFactory = null;
-
-	UserInterface u1 = new UserInterface(); 
-	
+	UserInterface ui = new UserInterface(); 
 	int x, y, square;
-	
 	
 	HighLight(int x, int y, int square)
 	{
@@ -26,15 +22,12 @@ public class HighLight {
 	public void paintComponent(Graphics g)
 	{	
 		g.setColor(new Color(255, 0, 0));
-		//g.setStoke(5);
+		g.fillRect(x, y, square, square);
+//		g.setStoke(5);
 //		Border l = BorderFactory.createLineBorder();
-        g.fillRect(x, y, square, square);
-       
 //        Rectangle rect = new Rectangle(x, y, square, square);
 //        rect.set
       
-        
-        
         
         //chess image
         Image chessPiecesImage;
@@ -67,11 +60,12 @@ public class HighLight {
                 case "a": j=0; k=1;
                     break;
             }
+            
             if (j!=-1 && k!=-1) {
-                g.drawImage(chessPiecesImage, (i%8)*square, (i/8)*square, (i%8+1)*square, (i/8+1)*square, j*64, k*64, (j+1)*64, (k+1)*64, u1);
-            	}
+                g.drawImage(chessPiecesImage, (i%8)*square, (i/8)*square, (i%8+1)*square, (i/8+1)*square, j*64, k*64, (j+1)*64, (k+1)*64, ui);
         	}
-        }	
-	}
+    	}
+    }	
+}
 
 

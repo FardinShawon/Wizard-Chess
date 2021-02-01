@@ -1,7 +1,9 @@
 package project;
-//package chess_package_1;
-import java.util.*;
+
+import java.util.Arrays;
+
 import javax.swing.*;
+
 public class AlphaBetaChess {
 	
 	
@@ -27,7 +29,6 @@ public class AlphaBetaChess {
     
     
     public static void main(String[] args) {
-    	
     	setup();  
     }
     
@@ -37,12 +38,14 @@ public class AlphaBetaChess {
     	while (!"A".equals(chessBoard[kingPositionC/8][kingPositionC%8])) {kingPositionC++;}//get King's location
         while (!"a".equals(chessBoard[kingPositionL/8][kingPositionL%8])) {kingPositionL++;}//get king's location
         
-        JFrame f=new JFrame("Wizerd Chess");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame=new JFrame("Wizerd Chess");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         UserInterface ui=new UserInterface();
-        f.add(ui);
-        f.setSize(1043, 1060);
-        f.setVisible(true);
+        frame.add(ui);
+        
+        frame.setSize(1022, 1060);
+        frame.setVisible(true);
         
         
         System.out.println(sortMoves(posibleMoves()));
@@ -58,7 +61,7 @@ public class AlphaBetaChess {
             long endTime=System.currentTimeMillis();
             System.out.println("That took "+(endTime-startTime)+" milliseconds");
             flipBoard();
-            f.repaint();
+            frame.repaint();
         }
         
 //        makeMove("7655 ");
@@ -104,7 +107,27 @@ public class AlphaBetaChess {
     }
     
     
-    
+//    //Flip the board
+//    public static void flipBoard() {
+//        String temp;
+//        for (int i=0;i<32;i++) {
+//            int r=i/8, c=i%8;
+//            if (Character.isUpperCase(chessBoard[r][c].charAt(0))) {
+//                temp=chessBoard[r][c].toLowerCase();
+//            } else {
+//                temp=chessBoard[r][c].toUpperCase();
+//            }
+//            if (Character.isUpperCase(chessBoard[7-r][7-c].charAt(0))) {
+//                chessBoard[r][c]=chessBoard[7-r][7-c].toLowerCase();
+//            } else {
+//                chessBoard[r][c]=chessBoard[7-r][7-c].toUpperCase();
+//            }
+//            chessBoard[7-r][7-c]=temp;
+//        }
+//        int kingTemp=kingPositionC;
+//        kingPositionC=63-kingPositionL;
+//        kingPositionL=63-kingTemp;
+//    }
     //Flip the board
     public static void flipBoard() {
         String temp;
@@ -169,17 +192,17 @@ public class AlphaBetaChess {
         String list="";
         for (int i=0; i<64; i++) {
             switch (chessBoard[i/8][i%8]) {
-                case "P": list+=posibleP(i);
+                case "P": list+=possiblePawnMove(i);
                     break;
-                case "R": list+=posibleR(i);
+                case "R": list+=possibleRockMove(i);
                     break;
-                case "K": list+=posibleK(i);
+                case "K": list+=possibleKnightMove(i);
                     break;
-                case "B": list+=posibleB(i);
+                case "B": list+=possibleBishopMove(i);
                     break;
-                case "Q": list+=posibleQ(i);
+                case "Q": list+=possibleQueenMove(i);
                     break;
-                case "A": list+=posibleA(i);
+                case "A": list+=possibleKingMove(i);
                     break;
             }
         }
@@ -189,7 +212,7 @@ public class AlphaBetaChess {
     
     
     //pawn
-    public static String posibleP(int i) {
+    public static String possiblePawnMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         for (int j=-1; j<=1; j+=2) {
@@ -200,7 +223,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r-1][c+j];
                     chessBoard[r][c]=" ";
                     chessBoard[r-1][c+j]="P";
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         list=list+r+c+(r-1)+(c+j)+oldPiece;
                     }
                     chessBoard[r][c]="P";
@@ -216,7 +239,7 @@ public class AlphaBetaChess {
                         oldPiece=chessBoard[r-1][c+j];
                         chessBoard[r][c]=" ";
                         chessBoard[r-1][c+j]=temp[k];
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             //column1,column2,captured-piece,new-piece,P
                             list=list+c+(c+j)+oldPiece+temp[k]+"P";
                         }
@@ -233,7 +256,7 @@ public class AlphaBetaChess {
                 oldPiece=chessBoard[r-1][c];
                 chessBoard[r][c]=" ";
                 chessBoard[r-1][c]="P";
-                if (kingSafe()) {
+                if (isKingSafe()) {
                     list=list+r+c+(r-1)+c+oldPiece;
                 }
                 chessBoard[r][c]="P";
@@ -250,7 +273,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r-1][c];
                     chessBoard[r][c]=" ";
                     chessBoard[r-1][c]=temp[k];
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         //column1,column2,captured-piece,new-piece,P
                         list=list+c+c+oldPiece+temp[k]+"P";
                     }
@@ -267,7 +290,7 @@ public class AlphaBetaChess {
                 oldPiece=chessBoard[r-2][c];
                 chessBoard[r][c]=" ";
                 chessBoard[r-2][c]="P";
-                if (kingSafe()) {
+                if (isKingSafe()) {
                     list=list+r+c+(r-2)+c+oldPiece;
                 }
                 chessBoard[r][c]="P";
@@ -280,7 +303,7 @@ public class AlphaBetaChess {
     
     
     //rock
-    public static String posibleR(int i) {
+    public static String possibleRockMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         int temp=1;
@@ -291,7 +314,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r][c+temp*j];
                     chessBoard[r][c]=" ";
                     chessBoard[r][c+temp*j]="R";
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         list=list+r+c+r+(c+temp*j)+oldPiece;
                     }
                     chessBoard[r][c]="R";
@@ -302,7 +325,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r][c+temp*j];
                     chessBoard[r][c]=" ";
                     chessBoard[r][c+temp*j]="R";
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         list=list+r+c+r+(c+temp*j)+oldPiece;
                     }
                     chessBoard[r][c]="R";
@@ -316,7 +339,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r+temp*j][c];
                     chessBoard[r][c]=" ";
                     chessBoard[r+temp*j][c]="R";
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         list=list+r+c+(r+temp*j)+c+oldPiece;
                     }
                     chessBoard[r][c]="R";
@@ -327,7 +350,7 @@ public class AlphaBetaChess {
                     oldPiece=chessBoard[r+temp*j][c];
                     chessBoard[r][c]=" ";
                     chessBoard[r+temp*j][c]="R";
-                    if (kingSafe()) {
+                    if (isKingSafe()) {
                         list=list+r+c+(r+temp*j)+c+oldPiece;
                     }
                     chessBoard[r][c]="R";
@@ -342,7 +365,7 @@ public class AlphaBetaChess {
     
     
     //knight
-    public static String posibleK(int i) {
+    public static String possibleKnightMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         for (int j=-1; j<=1; j+=2) {
@@ -351,7 +374,7 @@ public class AlphaBetaChess {
                     if (Character.isLowerCase(chessBoard[r+j][c+k*2].charAt(0)) || " ".equals(chessBoard[r+j][c+k*2])) {
                         oldPiece=chessBoard[r+j][c+k*2];
                         chessBoard[r][c]=" ";
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             list=list+r+c+(r+j)+(c+k*2)+oldPiece;
                         }
                         chessBoard[r][c]="K";
@@ -362,7 +385,7 @@ public class AlphaBetaChess {
                     if (Character.isLowerCase(chessBoard[r+j*2][c+k].charAt(0)) || " ".equals(chessBoard[r+j*2][c+k])) {
                         oldPiece=chessBoard[r+j*2][c+k];
                         chessBoard[r][c]=" ";
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             list=list+r+c+(r+j*2)+(c+k)+oldPiece;
                         }
                         chessBoard[r][c]="K";
@@ -377,7 +400,7 @@ public class AlphaBetaChess {
     
     
     //bishop
-    public static String posibleB(int i) {
+    public static String possibleBishopMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         int temp=1;
@@ -389,7 +412,7 @@ public class AlphaBetaChess {
                         oldPiece=chessBoard[r+temp*j][c+temp*k];
                         chessBoard[r][c]=" ";
                         chessBoard[r+temp*j][c+temp*k]="B";
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
                         }
                         chessBoard[r][c]="B";
@@ -400,7 +423,7 @@ public class AlphaBetaChess {
                         oldPiece=chessBoard[r+temp*j][c+temp*k];
                         chessBoard[r][c]=" ";
                         chessBoard[r+temp*j][c+temp*k]="B";
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
                         }
                         chessBoard[r][c]="B";
@@ -416,7 +439,7 @@ public class AlphaBetaChess {
     
     
     //queen
-    public static String posibleQ(int i) {
+    public static String possibleQueenMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         int temp=1;
@@ -429,7 +452,7 @@ public class AlphaBetaChess {
                             oldPiece=chessBoard[r+temp*j][c+temp*k];
                             chessBoard[r][c]=" ";
                             chessBoard[r+temp*j][c+temp*k]="Q";
-                            if (kingSafe()) {
+                            if (isKingSafe()) {
                                 list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
                             }
                             chessBoard[r][c]="Q";
@@ -440,7 +463,7 @@ public class AlphaBetaChess {
                             oldPiece=chessBoard[r+temp*j][c+temp*k];
                             chessBoard[r][c]=" ";
                             chessBoard[r+temp*j][c+temp*k]="Q";
-                            if (kingSafe()) {
+                            if (isKingSafe()) {
                                 list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
                             }
                             chessBoard[r][c]="Q";
@@ -457,7 +480,7 @@ public class AlphaBetaChess {
     
     
     //king
-    public static String posibleA(int i) {
+    public static String possibleKingMove(int i) {
         String list="", oldPiece;
         int r=i/8, c=i%8;
         for (int j=0;j<9;j++) {
@@ -469,7 +492,7 @@ public class AlphaBetaChess {
                         chessBoard[r-1+j/3][c-1+j%3]="A";
                         int kingTemp=kingPositionC;
                         kingPositionC=i+(j/3)*8+j%3-9;
-                        if (kingSafe()) {
+                        if (isKingSafe()) {
                             list=list+r+c+(r-1+j/3)+(c-1+j%3)+oldPiece;
                         }
                         chessBoard[r][c]="A";
@@ -486,7 +509,7 @@ public class AlphaBetaChess {
     
     
     //king safe
-    public static boolean kingSafe() {
+    public static boolean isKingSafe() {
     	
         //bishop/queen
         int temp=1;
