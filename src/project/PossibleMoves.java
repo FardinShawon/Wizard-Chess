@@ -11,7 +11,7 @@ public class PossibleMoves {
 	    String list="";
 	    for (int i=0; i<64; i++) {
 	        switch (AlphaBetaChess.chessBoard[i/8][i%8]) {
-	            case "P": list+=AlphaBetaChess.possiblePawnMove(i);
+	            case "P": list+=PossiblePawnMoves.possiblePawnMove(i);
 	                break;
 	            case "R": list+=PossibleRockMoves.possibleRockMove(i);
 	                break;
