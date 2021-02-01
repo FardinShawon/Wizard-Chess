@@ -71,13 +71,13 @@ public class Rating {
         counter+=material;
         counter+=rateMoveablitly(list, depth, material);
         counter+=ratePositional(material);
-        AlphaBetaChess.flipBoard();
+        FlipBoard.flipBoard();
         material=rateMaterial();
         counter-=rateAttack();
         counter-=material;
         counter-=rateMoveablitly(list, depth, material);
         counter-=ratePositional(material);
-        AlphaBetaChess.flipBoard();
+        FlipBoard.flipBoard();
         return -(counter+depth*50);
     }
     public static int rateAttack() {

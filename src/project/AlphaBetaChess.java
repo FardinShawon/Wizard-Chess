@@ -60,7 +60,7 @@ public class AlphaBetaChess {
             makeMove(alphaBeta(globalDepth, 1000000, -1000000, "", 0));
             long endTime=System.currentTimeMillis();
             System.out.println("That took "+(endTime-startTime)+" milliseconds");
-            flipBoard();
+            FlipBoard.flipBoard();
             frame.repaint();
         }
         
@@ -87,11 +87,11 @@ public class AlphaBetaChess {
         
         for (int i=0;i<list.length();i+=5) {
             makeMove(list.substring(i,i+5));
-            flipBoard();
+            FlipBoard.flipBoard();
             
             String returnString=alphaBeta(depth-1, beta, alpha, list.substring(i,i+5), player);
             int value=Integer.valueOf(returnString.substring(5));
-            flipBoard();
+            FlipBoard.flipBoard();
             undoMove(list.substring(i,i+5));
             
             if (player==0) {
@@ -107,48 +107,14 @@ public class AlphaBetaChess {
     }
     
     
-//    //Flip the board
-//    public static void flipBoard() {
-//        String temp;
-//        for (int i=0;i<32;i++) {
-//            int r=i/8, c=i%8;
-//            if (Character.isUpperCase(chessBoard[r][c].charAt(0))) {
-//                temp=chessBoard[r][c].toLowerCase();
-//            } else {
-//                temp=chessBoard[r][c].toUpperCase();
-//            }
-//            if (Character.isUpperCase(chessBoard[7-r][7-c].charAt(0))) {
-//                chessBoard[r][c]=chessBoard[7-r][7-c].toLowerCase();
-//            } else {
-//                chessBoard[r][c]=chessBoard[7-r][7-c].toUpperCase();
-//            }
-//            chessBoard[7-r][7-c]=temp;
-//        }
-//        int kingTemp=kingPositionC;
-//        kingPositionC=63-kingPositionL;
-//        kingPositionL=63-kingTemp;
-//    }
+    
     //Flip the board
-    public static void flipBoard() {
-        String temp;
-        for (int i=0;i<32;i++) {
-            int r=i/8, c=i%8;
-            if (Character.isUpperCase(chessBoard[r][c].charAt(0))) {
-                temp=chessBoard[r][c].toLowerCase();
-            } else {
-                temp=chessBoard[r][c].toUpperCase();
-            }
-            if (Character.isUpperCase(chessBoard[7-r][7-c].charAt(0))) {
-                chessBoard[r][c]=chessBoard[7-r][7-c].toLowerCase();
-            } else {
-                chessBoard[r][c]=chessBoard[7-r][7-c].toUpperCase();
-            }
-            chessBoard[7-r][7-c]=temp;
-        }
-        int kingTemp=kingPositionC;
-        kingPositionC=63-kingPositionL;
-        kingPositionL=63-kingTemp;
-    }
+	/**
+	 * @deprecated Use {@link FlipBoard#flipBoard()} instead
+	 */
+	public static void flipBoard() {
+		FlipBoard.flipBoard();
+	}
     
     
     

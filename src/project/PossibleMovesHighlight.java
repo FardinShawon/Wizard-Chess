@@ -20,7 +20,7 @@ public class PossibleMovesHighlight {
 		PossibleMovesHighlight.g=g;
 		position=x*8+y;
 		System.out.println(x+""+y);
-		//Draw();
+		Draw();
 	}
 	
 	
