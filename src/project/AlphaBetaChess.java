@@ -48,7 +48,7 @@ public class AlphaBetaChess {
         frame.setVisible(true);
         
         
-        System.out.println(sortMoves(posibleMoves()));
+        System.out.println(sortMoves(PossibleMoves.posibleMoves()));
         
         
         Object[] option={"Computer","Human"};
@@ -79,7 +79,7 @@ public class AlphaBetaChess {
     //AI
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
         //return in the form of 1234b##########
-        String list=posibleMoves();
+        String list=PossibleMoves.posibleMoves();
         if (depth==0 || list.length()==0) {return move+(Rating.rating(list.length(), depth)*(player*2-1));}
         list=sortMoves(list);
         
@@ -126,8 +126,6 @@ public class AlphaBetaChess {
 		Move.makeMove(move);
 	}
     
-    
-    
     //undo move
 	/**
 	 * @deprecated Use {@link Move#undoMove(String)} instead
@@ -136,30 +134,15 @@ public class AlphaBetaChess {
 		Move.undoMove(move);
 	}
     
-    
-    
+   
     
     //possible moves
-    public static String posibleMoves() {
-        String list="";
-        for (int i=0; i<64; i++) {
-            switch (chessBoard[i/8][i%8]) {
-                case "P": list+=possiblePawnMove(i);
-                    break;
-                case "R": list+=possibleRockMove(i);
-                    break;
-                case "K": list+=possibleKnightMove(i);
-                    break;
-                case "B": list+=possibleBishopMove(i);
-                    break;
-                case "Q": list+=possibleQueenMove(i);
-                    break;
-                case "A": list+=possibleKingMove(i);
-                    break;
-            }
-        }
-        return list;//x1,y1,x2,y2,captured piece
-    }
+	/**
+	 * @deprecated Use {@link PossibleMoves#posibleMoves()} instead
+	 */
+	public static String posibleMoves() {
+		return PossibleMoves.posibleMoves();
+	}
     
     
     
@@ -254,65 +237,13 @@ public class AlphaBetaChess {
     
     
     
-    //rock
-    public static String possibleRockMove(int i) {
-        String list="", oldPiece;
-        int r=i/8, c=i%8;
-        int temp=1;
-        for (int j=-1; j<=1; j+=2) {
-            try {
-                while(" ".equals(chessBoard[r][c+temp*j]))
-                {
-                    oldPiece=chessBoard[r][c+temp*j];
-                    chessBoard[r][c]=" ";
-                    chessBoard[r][c+temp*j]="R";
-                    if (isKingSafe()) {
-                        list=list+r+c+r+(c+temp*j)+oldPiece;
-                    }
-                    chessBoard[r][c]="R";
-                    chessBoard[r][c+temp*j]=oldPiece;
-                    temp++;
-                }
-                if (Character.isLowerCase(chessBoard[r][c+temp*j].charAt(0))) {
-                    oldPiece=chessBoard[r][c+temp*j];
-                    chessBoard[r][c]=" ";
-                    chessBoard[r][c+temp*j]="R";
-                    if (isKingSafe()) {
-                        list=list+r+c+r+(c+temp*j)+oldPiece;
-                    }
-                    chessBoard[r][c]="R";
-                    chessBoard[r][c+temp*j]=oldPiece;
-                }
-            } catch (Exception e) {}
-            temp=1;
-            try {
-                while(" ".equals(chessBoard[r+temp*j][c]))
-                {
-                    oldPiece=chessBoard[r+temp*j][c];
-                    chessBoard[r][c]=" ";
-                    chessBoard[r+temp*j][c]="R";
-                    if (isKingSafe()) {
-                        list=list+r+c+(r+temp*j)+c+oldPiece;
-                    }
-                    chessBoard[r][c]="R";
-                    chessBoard[r+temp*j][c]=oldPiece;
-                    temp++;
-                }
-                if (Character.isLowerCase(chessBoard[r+temp*j][c].charAt(0))) {
-                    oldPiece=chessBoard[r+temp*j][c];
-                    chessBoard[r][c]=" ";
-                    chessBoard[r+temp*j][c]="R";
-                    if (isKingSafe()) {
-                        list=list+r+c+(r+temp*j)+c+oldPiece;
-                    }
-                    chessBoard[r][c]="R";
-                    chessBoard[r+temp*j][c]=oldPiece;
-                }
-            } catch (Exception e) {}
-            temp=1;
-        }
-        return list;
-    }
+    //Rock
+	/**
+	 * @deprecated Use {@link PossibleRockMoves#possibleRockMove(int)} instead
+	 */
+	public static String possibleRockMove(int i) {
+		return PossibleRockMoves.possibleRockMove(i);
+	}
     
     
     

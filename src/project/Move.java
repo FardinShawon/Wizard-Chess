@@ -1,5 +1,10 @@
 package project;
 
+/**
+ * @author shuvra
+ *
+ */
+
 public class Move {
 
 	//make move
