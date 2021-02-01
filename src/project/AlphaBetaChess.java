@@ -57,7 +57,7 @@ public class AlphaBetaChess {
         
         if (humanAsWhite==0) {
             long startTime=System.currentTimeMillis();
-            makeMove(alphaBeta(globalDepth, 1000000, -1000000, "", 0));
+            Move.makeMove(alphaBeta(globalDepth, 1000000, -1000000, "", 0));
             long endTime=System.currentTimeMillis();
             System.out.println("That took "+(endTime-startTime)+" milliseconds");
             FlipBoard.flipBoard();
@@ -86,13 +86,13 @@ public class AlphaBetaChess {
         player=1-player;//either 1 or 0
         
         for (int i=0;i<list.length();i+=5) {
-            makeMove(list.substring(i,i+5));
+            Move.makeMove(list.substring(i,i+5));
             FlipBoard.flipBoard();
             
             String returnString=alphaBeta(depth-1, beta, alpha, list.substring(i,i+5), player);
             int value=Integer.valueOf(returnString.substring(5));
             FlipBoard.flipBoard();
-            undoMove(list.substring(i,i+5));
+            Move.undoMove(list.substring(i,i+5));
             
             if (player==0) {
                 if (value<=beta) {beta=value; if (depth==globalDepth) {move=returnString.substring(0,5);}}
@@ -119,36 +119,22 @@ public class AlphaBetaChess {
     
     
     //make move
-    public static void makeMove(String move) {
-        if (move.charAt(4)!='P') {
-            chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))]=chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))];
-            chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))]=" ";
-            if ("A".equals(chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))])) {
-                kingPositionC=8*Character.getNumericValue(move.charAt(2))+Character.getNumericValue(move.charAt(3));
-            }
-        } else {
-            //if pawn promotion
-            chessBoard[1][Character.getNumericValue(move.charAt(0))]=" ";
-            chessBoard[0][Character.getNumericValue(move.charAt(1))]=String.valueOf(move.charAt(3));
-        }
-    }
+	/**
+	 * @deprecated Use {@link Move#makeMove(String)} instead
+	 */
+	public static void makeMove(String move) {
+		Move.makeMove(move);
+	}
     
     
     
     //undo move
-    public static void undoMove(String move) {
-        if (move.charAt(4)!='P') {
-            chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))]=chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))];
-            chessBoard[Character.getNumericValue(move.charAt(2))][Character.getNumericValue(move.charAt(3))]=String.valueOf(move.charAt(4));
-            if ("A".equals(chessBoard[Character.getNumericValue(move.charAt(0))][Character.getNumericValue(move.charAt(1))])) {
-                kingPositionC=8*Character.getNumericValue(move.charAt(0))+Character.getNumericValue(move.charAt(1));
-            }
-        } else {
-            //if pawn promotion
-            chessBoard[1][Character.getNumericValue(move.charAt(0))]="P";
-            chessBoard[0][Character.getNumericValue(move.charAt(1))]=String.valueOf(move.charAt(2));
-        }
-    }
+	/**
+	 * @deprecated Use {@link Move#undoMove(String)} instead
+	 */
+	public static void undoMove(String move) {
+		Move.undoMove(move);
+	}
     
     
     
@@ -563,9 +549,9 @@ public class AlphaBetaChess {
     public static String sortMoves(String list) {
         int[] score=new int [list.length()/5];
         for (int i=0;i<list.length();i+=5) {
-            makeMove(list.substring(i, i+5));
+            Move.makeMove(list.substring(i, i+5));
             score[i/5]=-Rating.rating(-1, 0);
-            undoMove(list.substring(i, i+5));
+            Move.undoMove(list.substring(i, i+5));
         }
         String newListA="", newListB=list;
         for (int i=0;i<Math.min(6, list.length()/5);i++) {//first few moves only
