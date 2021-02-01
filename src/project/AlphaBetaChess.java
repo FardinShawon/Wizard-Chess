@@ -278,31 +278,12 @@ public class AlphaBetaChess {
     
     
     //king
-    public static String possibleKingMove(int i) {
-        String list="", oldPiece;
-        int r=i/8, c=i%8;
-        for (int j=0;j<9;j++) {
-            if (j!=4) {
-                try {
-                    if (Character.isLowerCase(chessBoard[r-1+j/3][c-1+j%3].charAt(0)) || " ".equals(chessBoard[r-1+j/3][c-1+j%3])) {
-                        oldPiece=chessBoard[r-1+j/3][c-1+j%3];
-                        chessBoard[r][c]=" ";
-                        chessBoard[r-1+j/3][c-1+j%3]="A";
-                        int kingTemp=kingPositionC;
-                        kingPositionC=i+(j/3)*8+j%3-9;
-                        if (isKingSafe()) {
-                            list=list+r+c+(r-1+j/3)+(c-1+j%3)+oldPiece;
-                        }
-                        chessBoard[r][c]="A";
-                        chessBoard[r-1+j/3][c-1+j%3]=oldPiece;
-                        kingPositionC=kingTemp;
-                    }
-                } catch (Exception e) {}
-            }
-        }
-        //need to add casting later
-        return list;
-    } 
+	/**
+	 * @deprecated Use {@link PossibleKingMoves#possibleKingMove(int)} instead
+	 */
+	public static String possibleKingMove(int i) {
+		return PossibleKingMoves.possibleKingMove(i);
+	} 
     
     
     

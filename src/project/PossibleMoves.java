@@ -21,7 +21,7 @@ public class PossibleMoves {
 	                break;
 	            case "Q": list+=PossibleQueenMoves.possibleQueenMove(i);
 	                break;
-	            case "A": list+=AlphaBetaChess.possibleKingMove(i);
+	            case "A": list+=PossibleKingMoves.possibleKingMove(i);
 	                break;
 	        }
 	    }

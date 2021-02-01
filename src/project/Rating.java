@@ -150,8 +150,8 @@ public class Rating {
                     break;
                 case "Q": counter+=queenBoard[i/8][i%8];
                     break;
-                case "A": if (material>=1750) {counter+=kingMidBoard[i/8][i%8]; counter+=AlphaBetaChess.possibleKingMove(AlphaBetaChess.kingPositionC).length()*10;} else
-                {counter+=kingEndBoard[i/8][i%8]; counter+=AlphaBetaChess.possibleKingMove(AlphaBetaChess.kingPositionC).length()*30;}
+                case "A": if (material>=1750) {counter+=kingMidBoard[i/8][i%8]; counter+=PossibleKingMoves.possibleKingMove(AlphaBetaChess.kingPositionC).length()*10;} else
+                {counter+=kingEndBoard[i/8][i%8]; counter+=PossibleKingMoves.possibleKingMove(AlphaBetaChess.kingPositionC).length()*30;}
                     break;
             }
         }
