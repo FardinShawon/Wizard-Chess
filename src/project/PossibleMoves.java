@@ -17,7 +17,7 @@ public class PossibleMoves {
 	                break;
 	            case "K": list+=PossibleKnightMoves.possibleKnightMove(i);
 	                break;
-	            case "B": list+=AlphaBetaChess.possibleBishopMove(i);
+	            case "B": list+=PossibleBishopMoves.possibleBishopMove(i);
 	                break;
 	            case "Q": list+=AlphaBetaChess.possibleQueenMove(i);
 	                break;
