@@ -37,7 +37,6 @@ public class FrontScreen extends JFrame {
 		playButton.setBackground(Color.BLACK);
 		playButton.setForeground(Color.lightGray);
 		playButton.setFont(font);
-		imgLabel.add(playButton);
 		playButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -47,6 +46,7 @@ public class FrontScreen extends JFrame {
 				s1.setVisible(true);			
 			}	
 		});
+		imgLabel.add(playButton);
 		
 		
 		//Settings
@@ -55,7 +55,6 @@ public class FrontScreen extends JFrame {
 		settingsButton.setBackground(Color.BLACK);
 		settingsButton.setForeground(Color.lightGray);
 		settingsButton.setFont(font);
-		imgLabel.add(settingsButton);
 		settingsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,6 +64,7 @@ public class FrontScreen extends JFrame {
 				s1.setVisible(true);
 			}
 		});
+		imgLabel.add(settingsButton);
 		
 		
 		//Exit
