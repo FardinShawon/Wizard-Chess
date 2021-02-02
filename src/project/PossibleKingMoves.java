@@ -22,7 +22,7 @@ public class PossibleKingMoves {
 	                    AlphaBetaChess.chessBoard[r-1+j/3][c-1+j%3]="A";
 	                    int kingTemp=AlphaBetaChess.kingPositionC;
 	                    AlphaBetaChess.kingPositionC=i+(j/3)*8+j%3-9;
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        list=list+r+c+(r-1+j/3)+(c-1+j%3)+oldPiece;
 	                    }
 	                    AlphaBetaChess.chessBoard[r][c]="A";

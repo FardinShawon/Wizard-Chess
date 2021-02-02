@@ -21,7 +21,7 @@ public class PossiblePawnMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r-1][c+j];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r-1][c+j]="P";
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    list=list+r+c+(r-1)+(c+j)+oldPiece;
 	                }
 	                AlphaBetaChess.chessBoard[r][c]="P";
@@ -37,7 +37,7 @@ public class PossiblePawnMoves {
 	                    oldPiece=AlphaBetaChess.chessBoard[r-1][c+j];
 	                    AlphaBetaChess.chessBoard[r][c]=" ";
 	                    AlphaBetaChess.chessBoard[r-1][c+j]=temp[k];
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        //column1,column2,captured-piece,new-piece,P
 	                        list=list+c+(c+j)+oldPiece+temp[k]+"P";
 	                    }
@@ -54,7 +54,7 @@ public class PossiblePawnMoves {
 	            oldPiece=AlphaBetaChess.chessBoard[r-1][c];
 	            AlphaBetaChess.chessBoard[r][c]=" ";
 	            AlphaBetaChess.chessBoard[r-1][c]="P";
-	            if (AlphaBetaChess.isKingSafe()) {
+	            if (CheckKingSafety.isKingSafe()) {
 	                list=list+r+c+(r-1)+c+oldPiece;
 	            }
 	            AlphaBetaChess.chessBoard[r][c]="P";
@@ -71,7 +71,7 @@ public class PossiblePawnMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r-1][c];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r-1][c]=temp[k];
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    //column1,column2,captured-piece,new-piece,P
 	                    list=list+c+c+oldPiece+temp[k]+"P";
 	                }
@@ -88,7 +88,7 @@ public class PossiblePawnMoves {
 	            oldPiece=AlphaBetaChess.chessBoard[r-2][c];
 	            AlphaBetaChess.chessBoard[r][c]=" ";
 	            AlphaBetaChess.chessBoard[r-2][c]="P";
-	            if (AlphaBetaChess.isKingSafe()) {
+	            if (CheckKingSafety.isKingSafe()) {
 	                list=list+r+c+(r-2)+c+oldPiece;
 	            }
 	            AlphaBetaChess.chessBoard[r][c]="P";

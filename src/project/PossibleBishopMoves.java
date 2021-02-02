@@ -22,7 +22,7 @@ public class PossibleBishopMoves {
 	                    oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c+temp*k];
 	                    AlphaBetaChess.chessBoard[r][c]=" ";
 	                    AlphaBetaChess.chessBoard[r+temp*j][c+temp*k]="B";
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
 	                    }
 	                    AlphaBetaChess.chessBoard[r][c]="B";
@@ -33,7 +33,7 @@ public class PossibleBishopMoves {
 	                    oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c+temp*k];
 	                    AlphaBetaChess.chessBoard[r][c]=" ";
 	                    AlphaBetaChess.chessBoard[r+temp*j][c+temp*k]="B";
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
 	                    }
 	                    AlphaBetaChess.chessBoard[r][c]="B";

@@ -85,20 +85,20 @@ public class Rating {
         int tempPositionC=AlphaBetaChess.kingPositionC;
         for (int i=0;i<64;i++) {
             switch (AlphaBetaChess.chessBoard[i/8][i%8]) {
-                case "P": {AlphaBetaChess.kingPositionC=i; if (!AlphaBetaChess.isKingSafe()) {counter-=64;}}
+                case "P": {AlphaBetaChess.kingPositionC=i; if (!CheckKingSafety.isKingSafe()) {counter-=64;}}
                     break;
-                case "R": {AlphaBetaChess.kingPositionC=i; if (!AlphaBetaChess.isKingSafe()) {counter-=500;}}
+                case "R": {AlphaBetaChess.kingPositionC=i; if (!CheckKingSafety.isKingSafe()) {counter-=500;}}
                     break;
-                case "K": {AlphaBetaChess.kingPositionC=i; if (!AlphaBetaChess.isKingSafe()) {counter-=300;}}
+                case "K": {AlphaBetaChess.kingPositionC=i; if (!CheckKingSafety.isKingSafe()) {counter-=300;}}
                     break;
-                case "B": {AlphaBetaChess.kingPositionC=i; if (!AlphaBetaChess.isKingSafe()) {counter-=300;}}
+                case "B": {AlphaBetaChess.kingPositionC=i; if (!CheckKingSafety.isKingSafe()) {counter-=300;}}
                     break;
-                case "Q": {AlphaBetaChess.kingPositionC=i; if (!AlphaBetaChess.isKingSafe()) {counter-=900;}}
+                case "Q": {AlphaBetaChess.kingPositionC=i; if (!CheckKingSafety.isKingSafe()) {counter-=900;}}
                     break;
             }
         }
         AlphaBetaChess.kingPositionC=tempPositionC;
-        if (!AlphaBetaChess.isKingSafe()) {counter-=200;}
+        if (!CheckKingSafety.isKingSafe()) {counter-=200;}
         return counter/2;
     }
     public static int rateMaterial() {
@@ -128,7 +128,7 @@ public class Rating {
         int counter=0;
         counter+=listLength;//5 pointer per valid move
         if (listLength==0) {//current side is in checkmate or stalemate
-            if (!AlphaBetaChess.isKingSafe()) {//if checkmate
+            if (!CheckKingSafety.isKingSafe()) {//if checkmate
                 counter+=-200000*depth;
             } else {//if stalemate
                 counter+=-150000*depth;

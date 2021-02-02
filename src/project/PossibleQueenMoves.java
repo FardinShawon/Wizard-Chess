@@ -21,7 +21,7 @@ public class PossibleQueenMoves {
 	                        oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c+temp*k];
 	                        AlphaBetaChess.chessBoard[r][c]=" ";
 	                        AlphaBetaChess.chessBoard[r+temp*j][c+temp*k]="Q";
-	                        if (AlphaBetaChess.isKingSafe()) {
+	                        if (CheckKingSafety.isKingSafe()) {
 	                            list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
 	                        }
 	                        AlphaBetaChess.chessBoard[r][c]="Q";
@@ -32,7 +32,7 @@ public class PossibleQueenMoves {
 	                        oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c+temp*k];
 	                        AlphaBetaChess.chessBoard[r][c]=" ";
 	                        AlphaBetaChess.chessBoard[r+temp*j][c+temp*k]="Q";
-	                        if (AlphaBetaChess.isKingSafe()) {
+	                        if (CheckKingSafety.isKingSafe()) {
 	                            list=list+r+c+(r+temp*j)+(c+temp*k)+oldPiece;
 	                        }
 	                        AlphaBetaChess.chessBoard[r][c]="Q";

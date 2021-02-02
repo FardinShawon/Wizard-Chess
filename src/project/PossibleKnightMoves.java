@@ -19,7 +19,7 @@ public class PossibleKnightMoves {
 	                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r+j][c+k*2].charAt(0)) || " ".equals(AlphaBetaChess.chessBoard[r+j][c+k*2])) {
 	                    oldPiece=AlphaBetaChess.chessBoard[r+j][c+k*2];
 	                    AlphaBetaChess.chessBoard[r][c]=" ";
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        list=list+r+c+(r+j)+(c+k*2)+oldPiece;
 	                    }
 	                    AlphaBetaChess.chessBoard[r][c]="K";
@@ -30,7 +30,7 @@ public class PossibleKnightMoves {
 	                if (Character.isLowerCase(AlphaBetaChess.chessBoard[r+j*2][c+k].charAt(0)) || " ".equals(AlphaBetaChess.chessBoard[r+j*2][c+k])) {
 	                    oldPiece=AlphaBetaChess.chessBoard[r+j*2][c+k];
 	                    AlphaBetaChess.chessBoard[r][c]=" ";
-	                    if (AlphaBetaChess.isKingSafe()) {
+	                    if (CheckKingSafety.isKingSafe()) {
 	                        list=list+r+c+(r+j*2)+(c+k)+oldPiece;
 	                    }
 	                    AlphaBetaChess.chessBoard[r][c]="K";

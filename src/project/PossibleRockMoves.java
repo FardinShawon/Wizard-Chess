@@ -21,7 +21,7 @@ public class PossibleRockMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r][c+temp*j];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r][c+temp*j]="R";
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    list=list+r+c+r+(c+temp*j)+oldPiece;
 	                }
 	                AlphaBetaChess.chessBoard[r][c]="R";
@@ -32,7 +32,7 @@ public class PossibleRockMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r][c+temp*j];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r][c+temp*j]="R";
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    list=list+r+c+r+(c+temp*j)+oldPiece;
 	                }
 	                AlphaBetaChess.chessBoard[r][c]="R";
@@ -46,7 +46,7 @@ public class PossibleRockMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r+temp*j][c]="R";
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    list=list+r+c+(r+temp*j)+c+oldPiece;
 	                }
 	                AlphaBetaChess.chessBoard[r][c]="R";
@@ -57,7 +57,7 @@ public class PossibleRockMoves {
 	                oldPiece=AlphaBetaChess.chessBoard[r+temp*j][c];
 	                AlphaBetaChess.chessBoard[r][c]=" ";
 	                AlphaBetaChess.chessBoard[r+temp*j][c]="R";
-	                if (AlphaBetaChess.isKingSafe()) {
+	                if (CheckKingSafety.isKingSafe()) {
 	                    list=list+r+c+(r+temp*j)+c+oldPiece;
 	                }
 	                AlphaBetaChess.chessBoard[r][c]="R";
