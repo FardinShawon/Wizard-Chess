@@ -48,7 +48,7 @@ public class AlphaBetaChess {
         frame.setVisible(true);
         
         
-        System.out.println(sortMoves(PossibleMoves.posibleMoves()));
+        System.out.println(MovesSorting.sortMoves(PossibleMoves.posibleMoves()));
         
         
         Object[] option={"Computer","Human"};
@@ -81,7 +81,7 @@ public class AlphaBetaChess {
         //return in the form of 1234b##########
         String list=PossibleMoves.posibleMoves();
         if (depth==0 || list.length()==0) {return move+(Rating.rating(list.length(), depth)*(player*2-1));}
-        list=sortMoves(list);
+        list=MovesSorting.sortMoves(list);
         
         player=1-player;//either 1 or 0
         
@@ -146,7 +146,7 @@ public class AlphaBetaChess {
     
     
     
-    //pawn
+    //Pawn
 	/**
 	 * @deprecated Use {@link PossiblePawnMoves#possiblePawnMove(int)} instead
 	 */
@@ -206,111 +206,23 @@ public class AlphaBetaChess {
     
     
     
-    //king safe
-    public static boolean isKingSafe() {
-    	
-        //bishop/queen
-        int temp=1;
-        for (int i=-1; i<=1; i+=2) {
-            for (int j=-1; j<=1; j+=2) {
-                try {
-                    while(" ".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8+temp*j])) {temp++;}
-                    if ("b".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8+temp*j]) ||
-                            "q".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8+temp*j])) {
-                        return false;
-                    }
-                } catch (Exception e) {}
-                temp=1;
-            }
-        }
-        
-        //rook/queen
-        for (int i=-1; i<=1; i+=2) {
-            try {
-                while(" ".equals(chessBoard[kingPositionC/8][kingPositionC%8+temp*i])) {temp++;}
-                if ("r".equals(chessBoard[kingPositionC/8][kingPositionC%8+temp*i]) ||
-                        "q".equals(chessBoard[kingPositionC/8][kingPositionC%8+temp*i])) {
-                    return false;
-                }
-            } catch (Exception e) {}
-            temp=1;
-            try {
-                while(" ".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8])) {temp++;}
-                if ("r".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8]) ||
-                        "q".equals(chessBoard[kingPositionC/8+temp*i][kingPositionC%8])) {
-                    return false;
-                }
-            } catch (Exception e) {}
-            temp=1;
-        }
-        
-        //knight
-        for (int i=-1; i<=1; i+=2) {
-            for (int j=-1; j<=1; j+=2) {
-                try {
-                    if ("k".equals(chessBoard[kingPositionC/8+i][kingPositionC%8+j*2])) {
-                        return false;
-                    }
-                } catch (Exception e) {}
-                try {
-                    if ("k".equals(chessBoard[kingPositionC/8+i*2][kingPositionC%8+j])) {
-                        return false;
-                    }
-                } catch (Exception e) {}
-            }
-        }
-        
-        //pawn
-        if (kingPositionC>=16) {
-            try {
-                if ("p".equals(chessBoard[kingPositionC/8-1][kingPositionC%8-1])) {
-                    return false;
-                }
-            } catch (Exception e) {}
-            try {
-                if ("p".equals(chessBoard[kingPositionC/8-1][kingPositionC%8+1])) {
-                    return false;
-                }
-            } catch (Exception e) {}
-            
-            //king
-            for (int i=-1; i<=1; i++) {
-                for (int j=-1; j<=1; j++) {
-                    if (i!=0 || j!=0) {
-                        try {
-                            if ("a".equals(chessBoard[kingPositionC/8+i][kingPositionC%8+j])) {
-                                return false;
-                            }
-                        } catch (Exception e) {}
-                    }
-                }
-            }
-        }
-        return true;
-    }
+    //King safe
+	/**
+	 * @deprecated Use {@link CheckKingSafety#isKingSafe()} instead
+	 */
+	public static boolean isKingSafe() {
+		return CheckKingSafety.isKingSafe();
+	}
     
     
     
-  //sort moves
-    public static String sortMoves(String list) {
-        int[] score=new int [list.length()/5];
-        for (int i=0;i<list.length();i+=5) {
-            Move.makeMove(list.substring(i, i+5));
-            score[i/5]=-Rating.rating(-1, 0);
-            Move.undoMove(list.substring(i, i+5));
-        }
-        String newListA="", newListB=list;
-        for (int i=0;i<Math.min(6, list.length()/5);i++) {//first few moves only
-            int max=-1000000, maxLocation=0;
-            for (int j=0;j<list.length()/5;j++) {
-                if (score[j]>max) {max=score[j]; maxLocation=j;}
-            }
-            score[maxLocation]=-1000000;
-            newListA+=list.substring(maxLocation*5,maxLocation*5+5);
-            newListB=newListB.replace(list.substring(maxLocation*5,maxLocation*5+5), "");
-        }
-        return newListA+newListB;
-    }
+	//Sort Moves
+	/**
+	 * @deprecated Use {@link MovesSorting#sortMoves(String)} instead
+	 */
+	public static String sortMoves(String list) {
+		return MovesSorting.sortMoves(list);
+	}
     
     
 }
