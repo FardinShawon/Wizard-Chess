@@ -1,186 +1,137 @@
 package project;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.*;
-
-import java.io.FileReader;
-
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.io.FileReader;
+import java.util.HashMap;
 
-public class UserInterface extends JPanel implements MouseListener, MouseMotionListener{
-	
-	int boardChoiceIndicator;
-	FileReader file;
-	Character indicator=new Character('0');	
-    static int mouseX, mouseY, newMouseX, newMouseY,tempx,tempy, x, y;
-    static int squareSize=128;
-//    static Graphics g;
-    
-//    g.addMouseListener(g);
-//    this.addMouseMotionListener(this);
-    
-    
+public class UserInterface extends JPanel implements MouseListener, MouseMotionListener {
+
+    private Character indicator = '0';
+    private int mouseX;
+    private int mouseY;
+    private final int squareSize = 128;
+
+    private static class BoardColor {
+        private final Color firstPlayerColor;
+        private final Color secondPlayerColor;
+
+        private static final HashMap<Character, BoardColor> availableBoardColors = new HashMap<>() {
+            {
+                put(BoardType.BOARD_TYPE_1, new BoardColor(new Color(229, 216, 243), new Color(153, 102, 204)));
+                put(BoardType.BOARD_TYPE_2, new BoardColor(new Color(230, 230, 230), new Color(123, 104, 238)));
+                put(BoardType.BOARD_TYPE_3, new BoardColor(new Color(233, 246, 251), new Color(123, 164, 40)));
+                put(BoardType.BOARD_TYPE_4, new BoardColor(new Color(255, 247, 204), new Color(51, 153, 95)));
+                put(BoardType.BOARD_TYPE_5, new BoardColor(new Color(233, 246, 251), new Color(123, 164, 40)));
+            }
+        };
+
+        public BoardColor(Color firstPlayerColor, Color secondPlayerColor) {
+            this.firstPlayerColor = firstPlayerColor;
+            this.secondPlayerColor = secondPlayerColor;
+        }
+
+        public Color getFirstPlayerColor() {
+            return firstPlayerColor;
+        }
+
+        public Color getSecondPlayerColor() {
+            return secondPlayerColor;
+        }
+
+        public static BoardColor getBoardColor(Character boardType) {
+            if (availableBoardColors.containsKey(boardType)) {
+                return availableBoardColors.get(boardType);
+            }
+            return new BoardColor(Color.WHITE, Color.BLACK);
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
-    	
-    	try {
-    		//file= new FileReader("D:\\choice1.txt");
-    		file= new FileReader("/media/shuvra/New Volume/IIT/3rd semester/Project/Chess/Codechoice1.txt");
-    		boardChoiceIndicator=file.read();
-    		 indicator=(char)boardChoiceIndicator;
-    	    //System.out.println("char :"+c);
-    	}
-    	catch(Exception e){
-    	
-    	}
-    	
         super.paintComponent(g);
         this.setBackground(Color.yellow);
         addMouseListener(this);
         addMouseMotionListener(this);
-       
 
-        //board 1
-        if(indicator.equals('1'))
-        {
-        	System.out.println("1");
-        
-        	for (int i=0;i<64;i+=2) {
-                g.setColor(new Color(229, 216, 243));
-                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
-                g.setColor(new Color(153, 102, 204));
-                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
+        try {
+            // TODO: Remove static file path
+            FileReader file = new FileReader("/media/shuvra/New Volume/IIT/3rd semester/Project/Chess/Codechoice1.txt");
+            int boardChoiceIndicator = file.read();
+            indicator = (char) boardChoiceIndicator;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        BoardColor boardColor = BoardColor.getBoardColor(indicator);
+
+        for (int i = 0; i < 64; i += 2) {
+            g.setColor(boardColor.getFirstPlayerColor());
+            g.fillRect((i % 8 + (i / 8) % 2) * squareSize, (i / 8) * squareSize, squareSize, squareSize);
+            g.setColor(boardColor.getSecondPlayerColor());
+            g.fillRect(((i + 1) % 8 - ((i + 1) / 8) % 2) * squareSize, ((i + 1) / 8) * squareSize, squareSize, squareSize);
+        }
+
+        HashMap<String, Point> chessImagePosition = new HashMap<>() {
+            {
+                put("A", new Point(0, 0));
+                put("a", new Point(0, 1));
+                put("B", new Point(3, 0));
+                put("b", new Point(3, 1));
+                put("K", new Point(4, 0));
+                put("k", new Point(4, 1));
+                put("P", new Point(5, 0));
+                put("p", new Point(5, 1));
+                put("Q", new Point(1, 0));
+                put("q", new Point(1, 1));
+                put("R", new Point(2, 0));
+                put("r", new Point(2, 1));
+            }
+        };
+
+        // chess image
+        Image chessPiecesImage = new ImageIcon("ChessPieces.png").getImage();
+        for (int i = 0; i < 64; i++) {
+            String item = AlphaBetaChess.chessBoard[i / 8][i % 8];
+            if (chessImagePosition.containsKey(item)) {
+                Point point = chessImagePosition.get(item);
+                g.drawImage(chessPiecesImage, (i % 8) * squareSize, (i / 8) * squareSize, (i % 8 + 1) * squareSize, (i / 8 + 1) * squareSize, point.x * 64, point.y * 64, (point.x + 1) * 64, (point.y + 1) * 64, this);
             }
         }
-        
-     
-        //board 2
-        if(indicator.equals('2'))
-        {
-        	System.out.println("2");
-        
-        	for (int i=0;i<64;i+=2) {
-                g.setColor(new Color(230, 230, 230));
-                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
-                g.setColor(new Color(123, 104, 238));
-                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
-            }
-        }
-        
-        
-        //board 3
-        if(indicator.equals('3'))
-        {
-        	//System.out.println("3");
-        
-        	 for (int i=0;i<64;i+=2) {
-                 g.setColor(new Color(233, 246, 251));
-                 g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
-                 g.setColor(new Color(123, 164, 40));
-                 g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
-             }
-        }
-        
-        
-        
-        //board 4
-        if(indicator.equals('4'))
-        {
-        	System.out.println("4");
-        
-        	for (int i=0;i<64;i+=2) {
-                g.setColor(new Color(255, 247, 204));
-                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
-                g.setColor(new Color(51, 153, 95));
-                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
-            }
-        }
-        
-        
-        
-        //board 5
-        if(indicator.equals('5'))
-        {
-        	System.out.println("5");
-        
-        	for (int i=0;i<64;i+=2) {
-                g.setColor(new Color(233, 246, 251));
-                g.fillRect((i%8+(i/8)%2)*squareSize, (i/8)*squareSize, squareSize, squareSize);
-                g.setColor(new Color(123, 164, 40));
-                g.fillRect(((i+1)%8-((i+1)/8)%2)*squareSize, ((i+1)/8)*squareSize, squareSize, squareSize);
-            }
-        }
-        
-        
-        
-        //chess image
-        Image chessPiecesImage;
-        chessPiecesImage=new ImageIcon("ChessPieces.png").getImage();
-        for (int i=0;i<64;i++) {
-            int j=-1,k=-1;
-            switch (AlphaBetaChess.chessBoard[i/8][i%8]) {
-                case "P": j=5; k=0;
-                    break;
-                case "p": j=5; k=1;
-                    break;
-                case "R": j=2; k=0;
-                    break;
-                case "r": j=2; k=1;
-                    break;
-                case "K": j=4; k=0;
-                    break;
-                case "k": j=4; k=1;
-                    break;
-                case "B": j=3; k=0;
-                    break;
-                case "b": j=3; k=1;
-                    break;
-                case "Q": j=1; k=0;
-                    break;
-                case "q": j=1; k=1;
-                    break;
-                case "A": j=0; k=0;
-                    break;
-                case "a": j=0; k=1;
-                    break;
-            }
-            if (j!=-1 && k!=-1) {
-                g.drawImage(chessPiecesImage, (i%8)*squareSize, (i/8)*squareSize, (i%8+1)*squareSize, (i/8+1)*squareSize, j*64, k*64, (j+1)*64, (k+1)*64, this);
-            }
-        }  
     }
-    
-    
+
+
     //Mouse functionality
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
+        if (e.getX() < 8 * squareSize && e.getY() < 8 * squareSize) {
             //if inside the board
-            mouseX=e.getX();
-            mouseY=e.getY();
+            mouseX = e.getX();
+            mouseY = e.getY();
             repaint();
         }
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getX()<8*squareSize &&e.getY()<8*squareSize) {
+        if (e.getX() < 8 * squareSize && e.getY() < 8 * squareSize) {
             //if inside the board
-            newMouseX=e.getX();
-            newMouseY=e.getY();
-            if (e.getButton()==MouseEvent.BUTTON1) {
+            int newMouseX = e.getX();
+            int newMouseY = e.getY();
+            if (e.getButton() == MouseEvent.BUTTON1) {
                 String dragMove;
-                if (newMouseY/squareSize==0 && mouseY/squareSize==1 && "P".equals(AlphaBetaChess.chessBoard[mouseY/squareSize][mouseX/squareSize])) {
+                if (newMouseY / squareSize == 0 && mouseY / squareSize == 1 && "P".equals(AlphaBetaChess.chessBoard[mouseY / squareSize][mouseX / squareSize])) {
                     //pawn promotion
-                    dragMove=""+mouseX/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize]+"QP";
+                    dragMove = "" + mouseX / squareSize + newMouseX / squareSize + AlphaBetaChess.chessBoard[newMouseY / squareSize][newMouseX / squareSize] + "QP";
                 } else {
                     //regular move
-                    dragMove=""+mouseY/squareSize+mouseX/squareSize+newMouseY/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize];
+                    dragMove = "" + mouseY / squareSize + mouseX / squareSize + newMouseY / squareSize + newMouseX / squareSize + AlphaBetaChess.chessBoard[newMouseY / squareSize][newMouseX / squareSize];
                 }
-                String userPosibilities=PossibleMoves.posibleMoves();
-                if (userPosibilities.replaceAll(dragMove, "").length()<userPosibilities.length()) {
+                String userPossibilities = PossibleMoves.posibleMoves();
+                if (userPossibilities.replaceAll(dragMove, "").length() < userPossibilities.length()) {
                     //if valid move
                     Move.makeMove(dragMove);
                     FlipBoard.flipBoard();
@@ -192,29 +143,31 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
             }
         }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
-    	tempx = e.getX();
-    	tempy = e.getY();
-    	x=tempx/squareSize;
-    	y=tempy/squareSize;
-    	tempx=x*squareSize;
-    	tempy=y*squareSize;
-    	
-    	HighLight h = new HighLight(tempx, tempy, squareSize);
-    	h.paintComponent(getGraphics());
-    	
-    	PossibleMovesHighlight pmh = new PossibleMovesHighlight(x, y, squareSize, getGraphics());
-    	pmh.Draw();
+        int x = e.getX() / squareSize;
+        int y = e.getY() / squareSize;
+        int tempX = x * squareSize;
+        int tempY = y * squareSize;
+
+        (new HighLight(tempX, tempY, squareSize)).paintComponent(getGraphics());
+        (new PossibleMovesHighlight(x, y, squareSize, getGraphics())).draw();
     }
-    
+
     @Override
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {
+    }
+
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+    }
+
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+    }
+
     @Override
-    public void mouseMoved(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {
+    }
 }
