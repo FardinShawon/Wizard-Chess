@@ -46,7 +46,7 @@ public class AlphaBetaChess {
         frame.setSize(1022, 1060);
         frame.setVisible(true);
 
-        System.out.println(MovesSorting.sortMoves(PossibleMoves.posibleMoves()));
+        System.out.println(MovesSorting.sortMoves(PossibleMoves.possibleMoves()));
 
         Object[] option = {"Computer", "Human"};
         humanAsWhite = JOptionPane.showOptionDialog(null, "Who will move first?", "Move Options", JOptionPane.YES_NO_OPTION,
@@ -73,9 +73,9 @@ public class AlphaBetaChess {
     //AI
     public static String alphaBeta(int depth, int beta, int alpha, String move, int player) {
         //return to the form of 1234b##########
-        String list = PossibleMoves.posibleMoves();
+        String list = PossibleMoves.possibleMoves();
         if (depth == 0 || list.length() == 0) {
-            return move + (Rating.rating(list.length(), depth) * (player * 2 - 1));
+            return move + ((new Rating()).rating(list.length(), depth) * (player * 2 - 1));
         }
         list = MovesSorting.sortMoves(list);
 
