@@ -12,7 +12,7 @@ public class PossibleMovesHighlight {
 	static int hflag;
 	static Graphics g;
 	
-	PossibleMovesHighlight(int y, int x, int square, Graphics g)
+	PossibleMovesHighlight(int x, int y, int square, Graphics g)
 	{
 		PossibleMovesHighlight.x=x;
 		PossibleMovesHighlight.y=y;	
@@ -20,11 +20,11 @@ public class PossibleMovesHighlight {
 		PossibleMovesHighlight.g=g;
 		position=x*8+y;
 		System.out.println(x+""+y);
-		Draw();
+		draw();
 	}
 	
 	
-	public void Draw()
+	public void draw()
 	{
 		if("P".equals(AlphaBetaChess.chessBoard[x][y]))
 		{
