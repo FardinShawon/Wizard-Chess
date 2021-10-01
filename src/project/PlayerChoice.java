@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 public class PlayerChoice extends JFrame {
 	private JButton backButton, playerToComputerButton;
@@ -45,7 +44,7 @@ public class PlayerChoice extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				Dificulty d1=new Dificulty();
+				Difficulty d1=new Difficulty();
 				d1.setVisible(true);
 			}
 		});
