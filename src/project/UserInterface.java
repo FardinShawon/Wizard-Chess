@@ -95,7 +95,7 @@ public class UserInterface extends JPanel implements MouseListener, MouseMotionL
                     //regular move
                     dragMove = "" + mouseY / squareSize + mouseX / squareSize + newMouseY / squareSize + newMouseX / squareSize + AlphaBetaChess.chessBoard[newMouseY / squareSize][newMouseX / squareSize];
                 }
-                String userPossibilities = PossibleMoves.posibleMoves();
+                String userPossibilities = PossibleMoves.possibleMoves();
                 if (userPossibilities.replaceAll(dragMove, "").length() < userPossibilities.length()) {
                     //if valid move
                     Move.makeMove(dragMove);
